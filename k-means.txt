@@ -1,0 +1,20 @@
+http://blog.csdn.net/lphbtm/article/details/38872275  point  mat vector 转换
+http://blog.csdn.net/tan_change/article/details/46833251   Opencv代码小结之Mat三维创建和Mat逐点逐行赋值
+
+http://blog.csdn.net/maweifei/article/details/51227253   OpenCv学习笔记(三)---OpenCv中基本数据类型--Point,Size,Rect,Scalar,Vec3b类类型的详细解释及其OpenCv中源代码的详细分析 
+http://www.opengl-tutorial.org/cn/beginners-tutorials/tutorial-3-matrices/    矩阵
+http://archive.ics.uci.edu/ml/index.php   数据下载
+https://www.cnblogs.com/wuchuanying/p/6218486.html   Python—kmeans算法学习笔记 
+http://blog.csdn.net/lavorange/article/details/28854929  c++kmeans算法实现
+https://www.cnblogs.com/mikewolf2002/p/3368118.html  kmeans算法实现
+https://www.cnblogs.com/zhizhan/p/4821297.html   数据降维
+https://www.zhihu.com/question/20617534  vs插件
+
+http://blog.csdn.net/qll125596718/article/details/8243404/  kmeans  质心计算   是各维度的平均值
+
+https://www.cnblogs.com/yixuan-xu/p/6272208.html  kmeans++
+https://www.cnblogs.com/nocml/p/5150756.html     kmeans++ 
+http://blog.csdn.net/zz_dd_yy/article/details/51926305  余弦相似度
+
+http://blog.csdn.net/qq_15738501/article/details/79036255  kmeans k值得选取
+
