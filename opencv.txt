@@ -1,0 +1,4 @@
+1.首先要理解矩阵。 http://blog.csdn.net/myan/article/details/647511
+2.图片的格式。
+3.一些类： mat  scalar  rng  图片的转换。
+3.算法:k-means  并将算法实现。

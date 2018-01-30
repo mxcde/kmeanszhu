@@ -17,4 +17,11 @@ https://www.cnblogs.com/nocml/p/5150756.html     kmeans++
 http://blog.csdn.net/zz_dd_yy/article/details/51926305  余弦相似度
 
 http://blog.csdn.net/qq_15738501/article/details/79036255  kmeans k值得选取
+http://blog.csdn.net/mingtian715/article/details/54015798  python kmeans算法
+http://blog.csdn.net/loveliuzz/article/details/78783773  kmeans  优化
+http://blog.csdn.net/linzch3/article/details/57418531  kmeans总结
+http://blog.sina.com.cn/s/blog_501162be0102v37l.html  Multidimensional Scaling(MDS)多维尺度变换  降维
+http://blog.csdn.net/seahillpass/article/details/75944308  包含机器学习深度学习大牛主页等
+
+https://www.cnblogs.com/aixiaomei/p/6311633.html  redis  学习
 
