@@ -14,7 +14,8 @@ protected:
 
 protected:
 	void generateRandomCenter(); //  生成随机质心
-	void kppgenerateCenter();
+	void kppgenerateCenter(); //  kpp 
+	void getKPPdistence(int centersize);
 
 protected:
 	void readfile();             //  读取数据文件
@@ -43,6 +44,8 @@ private:
 
 	//  质心的选择方式 1. 随机  2.人为选择  3. Kpp算法
 
+	
+	vector <vector<float >> dataPP;
 
 
 

@@ -12,36 +12,29 @@ kmeans::kmeans()
 	readfile();
 	
 	label.resize(data.size());
-	generateRandomCenter();
-	Euclidean_distance();
-	for (int i = 0; i <10; ++i)
+	kppgenerateCenter();//generateRandomCenter();
+	Euclidean_distance(); //cosine_distance();//Euclidean_distance();
+	for (int i = 0; i < k_value; ++i)
+	{
+		cout << "******************* k:" << i << endl;
+		cout << labs[i] << endl;
+	}
+	for (int i = 0; i < 10; ++i)
 	{
 		if (labszr())
 		{
 			labszreo();
 		}
 		ComputerCenters();
-		Euclidean_distance();
-		
-		for (int j = 0; j < k_value; j++)
-		{    int k = 0;
-			cout << "\n*****************" << j << "**********\n";
-			for (int i = 0; i < data.size(); i++)
-			{
-				
-				if (label[i] == j)
-				{
-					k++;
-					//cout <<i<<":"<< filedata[i] << endl;;
-				}
-				
-			}
-			cout << "k:" << k << endl;
-		}
+		Euclidean_distance(); //cosine_distance(); //Euclidean_distance(); 
 
-		cout << "\n--------------------------" << endl;
+		for (int i = 0; i < k_value; ++i)
+		{
+			cout << "******************* k:" << i << endl;
+			cout << labs[i] << endl;
+		}
+		outfile();
 	}
-	outfile();
 }
 
 kmeans::~kmeans()
@@ -97,6 +90,45 @@ void kmeans::Euclidean_distance()
 void kmeans::cosine_distance()
 {
 
+	labs.clear();
+	labs.resize(k_value);
+	double centerDISAB = 0;
+	double centerDISA = 0;
+	double centerDISB = 0;
+	double cosDIS;
+	vector<double> centerdis;
+	for (int i = 0; i < center.size(); i++)
+	{
+		for (int j = 0; j < center[0].size(); ++j)
+		{
+			cout << center[i][j] << endl;
+		}
+	}
+	int label_pos = 0;
+	for (int k = 0; k < data.size(); ++k)  ////  data.size  表示所有的 数据点数
+	{
+		for (int j = 0; j < k_value; ++j) ////center.size 表示簇数
+		{
+			centerDISAB = 0;
+			centerDISA = 0;
+			centerDISB = 0;
+			for (int i = 0; i < data[0].size(); ++i) ////  center[0].size  表示维度
+			{
+				centerDISAB += (center[j][i]*data[k][i]);
+				centerDISA += center[j][i] * center[j][i];
+				centerDISB += data[k][i] * data[k][i];
+			}
+			cosDIS = (centerDISAB) / (sqrtf(centerDISA)*sqrtf(centerDISB));
+			centerdis.push_back(cosDIS);
+		}
+
+		vector<double>::iterator max = max_element(centerdis.begin(), centerdis.end());
+		int pos = distance(centerdis.begin(), max); /// 使用label标识 data的数据属于哪个簇
+		label[k] = pos;
+		centerdis.clear();
+		labs[label[k]]++;
+	}
+
 }
 
 //对于距离度量不管是采用欧式距离还是采用余弦相似度，簇的质心都是其均值，即向量各维取平均即可。
@@ -106,9 +138,8 @@ void kmeans::ComputerCenters() ////      质心的计算
 	vector<vector<float>>   centerdis;
 	centerdis.resize(center.size());
 	vector<float>  tmp;
-	tmp.resize(center.size());
 	center.clear();
-	center.resize(Oldcenter.size());
+	center.resize(k_value);
 	for (int j = 0; j < data[0].size(); ++j) ///  维度  
     {
 		tmp.clear();
@@ -118,7 +149,7 @@ void kmeans::ComputerCenters() ////      质心的计算
 		     tmp[label[i]]+= data[i][j];
 
 	}
-	for (int k = 0; k <center.size(); ++k)   /// 带表  k
+	for (int k = 0; k <k_value; ++k)   /// 带表  k
 	{
 		center[k].push_back(tmp[k]/labs[k]); ////将计算好的中心点存放到 center 
 	}
@@ -158,12 +189,86 @@ void kmeans::generateRandomCenter() /// 生成随机质心   质心的初始化
  }
 void kmeans::kppgenerateCenter()
 {
+	////////////////////   随机第一个点
+	srand((unsigned)time(NULL));
+	random_device  rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> FirstCenterNum(0,data.size());   
+	int CenterNum = FirstCenterNum(gen);
+	/*for (int i = 0; i < data[0].size(); ++i)
+	{
+		center[0].push_back(data[CenterNum][i]);
+	}
+	*/
+	center[0]=data[CenterNum];///////////// firstcenter 
 
 
+	//////////////////////////////    
+	
+	for (int i = 1; i < k_value; ++i)
+	{
+		dataPP.clear();
+		dataPP.resize(data.size());
+		getKPPdistence(i);
+		float distCount = 0;
+		float dataP = 0;
+		for (int j = 0; j < data.size(); ++j)
+		{
+			distCount += dataPP[j][0];
+		}
+		for (int j = 0; j < data.size(); ++j)
+		{
+			dataP += dataPP[j][0] / distCount;
+			dataPP[j].push_back(dataP);
+		}
 
-
-
+		uniform_int_distribution<> pp(0, 10);
+		int ppsize = pp(gen);
+		float centerPP = (float)ppsize / 10;
+		int centerpos;
+		for (int cen = 0; cen < data.size(); )
+		{
+			if (centerPP > dataPP[cen][1])
+			{
+				cen++;
+			}
+			else
+			{
+				centerpos = ++cen;
+				break;
+			}
+		}
+		center[i]=data[centerpos];
+	}
 }
+
+
+
+
+
+void kmeans::getKPPdistence(int centersize)
+{
+	float DisPP = 0;
+	vector<float>  centerdis;
+	for (int k = 0; k < data.size(); ++k)  ////  data.size  表示所有的 数据点数
+	{
+		for (int j = 0; j <centersize; ++j) ////center.size 表示簇数
+		{
+			DisPP = 0;
+			for (int i = 0; i < data[0].size(); ++i) ////  center[0].size  表示维度
+			{
+				DisPP += (center[j][i] - data[k][i])*(center[j][i] - data[k][i]);
+			}
+			centerdis.push_back(sqrtf(DisPP));
+		}
+		vector<float>::iterator min = min_element(centerdis.begin(), centerdis.end());
+		float tmp = *min;
+		dataPP[k].push_back(tmp);
+		int pos = distance(centerdis.begin(), min); /// 使用label标识 data的数据属于哪个簇
+		centerdis.clear();
+	}
+}
+
 /////////// 读文件
 void kmeans::readfile()
 {
